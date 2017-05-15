@@ -546,10 +546,11 @@
 
 								<section>
 									<label class="select">
-										<select name="ativo" value="<%=usuario.ativo%>">
-											<option value="1">Ativo</option>
-											<option value="0">Inativo</option>
-										</select> <i></i> </label>
+										<select name="ativo">
+											<option value="1" <%= usuario.ativo == 1 ? 'selected' : ''%>>Ativo</option>
+											<option value="0" <%= usuario.ativo == 0 ? 'selected' : ''%>>Inativo</option>
+										</select> <i></i> 
+									</label>
 								</section>
 							</fieldset>
 
