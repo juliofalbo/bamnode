@@ -10,7 +10,7 @@ Sistema de BI em tempo real escrito em **[NodeJS](https://nodejs.org/en/)**, utl
 Documentação
 -------------
 
-#### <i class="icon-file"></i> **Cria��o do Banco de Dados**
+#### <i class="icon-file"></i> **Criação do Banco de Dados**
 > - O banco de dados utilizado é o **MySQL**.
 
 Será necessário a criação de 2 bancos, um para **teste** e um para **produção**.
@@ -25,19 +25,19 @@ create database bam;
 use bam;
 
 CREATE TABLE usuarios (
-  id BIGINT NOT NULL AUTO_INCREMENT,
-  login VARCHAR(45) NOT NULL ,
-  senha VARCHAR(45) NOT NULL ,
-  nome VARCHAR(100) NOT NULL ,
-  ativo TINYINT NOT NULL DEFAULT 1 ,
-  email varchar(100) NOT NULL,
-  data_criacao datetime NOT NULL,
-  foto TEXT,
-  site varchar(100),
-  PRIMARY KEY (id)
+id BIGINT NOT NULL AUTO_INCREMENT,
+login VARCHAR(45) NOT NULL ,
+senha VARCHAR(45) NOT NULL ,
+nome VARCHAR(100) NOT NULL ,
+ativo TINYINT NOT NULL DEFAULT 1 ,
+email varchar(100) NOT NULL,
+data_criacao datetime NOT NULL,
+foto TEXT,
+site varchar(100),
+PRIMARY KEY (id)
 );
 
-insert into usuarios values(null, 'julio.silveira', '123', 'J�lio Silveira', 1, 'julio.silveira.rj@gmail.com', now(), null, 'http://juliosilveiradev.com');
+insert into usuarios values(null, 'julio.silveira', '123', 'Júlio Silveira', 1, 'julio.silveira.rj@gmail.com', now(), null, 'http://juliosilveiradev.com');
 
 **Obs: Criar a tabela nos 2 bancos.**
 
@@ -48,7 +48,7 @@ Para rodar o teste é simples, basta executar em seu prompt de comando o comando
 
 Obs: A API usada para os testa são: **mocha** e **supertest**.
 <br>
-Obs²: É preciso estar na basta do projeto para rodar o teste com efici�ncia.
+Obs²: É preciso estar na basta do projeto para rodar o teste com eficiência.
 
 #### <i class="icon-pencil"></i> **API's Utilizadas**
  - body-parser
