@@ -17,12 +17,12 @@ Será necessário a criação de 2 bancos, um para **teste** e um para **produç
 > **Script para criação do banco:**
 
 *Banco de **Teste***
-create database bam_test;
-use bam_test;
+> create database bam_test;
+> use bam_test;
 
-> *Banco de **Produção***
-create database bam;
-use bam;
+*Banco de **Produção***
+> create database bam;
+> use bam;
 
 CREATE TABLE usuarios (
 id BIGINT NOT NULL AUTO_INCREMENT,
