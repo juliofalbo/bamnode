@@ -153,7 +153,28 @@ module.exports = function(app) {
             else
             {
                 var mensagemSucesso = "Usuário "+usuario.nome+" editado com Sucesso!";
-                res.redirect('/usuarios?mensagemSucesso=' + mensagemSucesso);
+
+                usuariosDAO.lista(function(erros, resultados) {
+                    var ativos = 0;
+                    var inativos = 0;
+
+                    for (var i = 0; i < resultados.length; i++) {
+                        var usuario = resultados[i];
+                        if(usuario.ativo == 1)
+                        {
+                            ativos++;
+                        }
+                        else
+                        {
+                            inativos++;
+                        }
+                    }
+                    
+                    var usuariosAtivoInativo = {ativos: ativos, inativos:inativos};
+                    app.get('io').emit('atualizarGraficoUsuario', usuariosAtivoInativo);
+                    res.redirect('/usuarios?mensagemSucesso=' + mensagemSucesso);
+                    return;
+                });
             }
         });
     });

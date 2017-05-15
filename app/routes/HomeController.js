@@ -5,7 +5,7 @@ module.exports = function(app) {
         var usuariosDAO = new app.infra.UsuariosDAO(connection);
 
         usuariosDAO.lista(function(erros, resultados) {
-            res.render('home/index', {livros: resultados});
+            res.render('home/index', {usuarios: resultados});
         });
         
         connection.end();

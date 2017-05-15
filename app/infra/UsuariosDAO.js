@@ -21,11 +21,11 @@ UsuariosDAO.prototype.deleta = function(id, callback) {
 UsuariosDAO.prototype.edita = function(usuario, callback) {
     if(!Object.keys(usuario.senha).length)
     {
-        this._connection.query("update usuarios set login = '"+usuario.login+"', nome = '"+usuario.nome+"', email = '"+usuario.email+"', site = '"+usuario.site+"' where id = " + usuario.id, callback);
+        this._connection.query("update usuarios set login = '"+usuario.login+"', nome = '"+usuario.nome+"', email = '"+usuario.email+"', site = '"+usuario.site+"', ativo = '"+usuario.ativo+"' where id = " + usuario.id, callback);
     }
     else
     {
-        this._connection.query("update usuarios set login = '"+usuario.login+"', senha = '"+usuario.senha+"', nome = '"+usuario.nome+"', email = '"+usuario.email+"', site = '"+usuario.site+"' where id = " + usuario.id, callback);
+        this._connection.query("update usuarios set login = '"+usuario.login+"', senha = '"+usuario.senha+"', nome = '"+usuario.nome+"', email = '"+usuario.email+"', site = '"+usuario.site+"', ativo = '"+usuario.ativo+"' where id = " + usuario.id, callback);
     }
     
 }

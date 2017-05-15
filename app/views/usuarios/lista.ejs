@@ -374,7 +374,7 @@
 						<a href="#"><i class="fa fa-lg fa-fw fa-bar-chart-o"></i> <span class="menu-item-parent">Gráficos</span></a>
 						<ul>
 							<li>
-								<a href="/bam">BAM <span class="badge pull-right inbox-badge bg-color-yellow">novo</span></a>
+								<a href="/bi">BI <span class="badge pull-right inbox-badge bg-color-yellow">novo</span></a>
 							</li>
 						</ul>
 					</li>
@@ -596,7 +596,7 @@
 		<div class="page-footer">
 			<div class="row">
 				<div class="col-xs-12 col-sm-6">
-					<span class="txt-color-white">Júlio Silveira BAM 1.0.0 <span class="hidden-xs"> - Web Application Node</span> © 2017</span>
+					<span class="txt-color-white">Júlio Silveira Node 1.0.0 <span class="hidden-xs"> - Web Application Node</span> © 2017</span>
 				</div>
 
 				<div class="col-xs-6 col-sm-6 text-right hidden-xs">
@@ -716,6 +716,7 @@
 		<script src="../js/plugin/datatables/dataTables.tableTools.min.js"></script>
 		<script src="../js/plugin/datatables/dataTables.bootstrap.min.js"></script>
 		<script src="../js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
 
 		<script type="text/javascript">
 		
@@ -909,6 +910,13 @@
 			var s = document.getElementsByTagName('script')[0];
 			s.parentNode.insertBefore(ga, s);
 			})();
+		</script>
+		
+		<script>
+			var socket = io();
+			socket.on('algumaAtualizacaoEmTempoReal', function (data) {
+				
+			});
 		</script>
 
 	</body>
