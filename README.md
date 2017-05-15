@@ -7,26 +7,24 @@ Sistema de BI em tempo real escrito em **[NodeJS](https://nodejs.org/en/)**, utl
 ----------
 
 
-Documentação
+DocumentaÃ§Ã£o
 -------------
 
-#### <i class="icon-file"></i> **Criação do Banco de Dados**
-> **Note:**
+#### <i class="icon-file"></i> **Criaï¿½ï¿½o do Banco de Dados**
+> - O banco de dados utilizado Ã© o **MySQL**.
 
-> - O banco de dados utilizado é o é **MySQL**.
+SerÃ¡ necessÃ¡rio a criaÃ§Ã£o de 2 bancos, um para **teste** e um para **produÃ§Ã£o**.
+> **Script para criaÃ§Ã£o do banco:**
 
-Será necessário a criação de 2 bancos, um para **teste** e um para **produção**.
-> **Script para criação do banco:**
+*Banco de **Teste***
+create database bam_test;
+use bam_test;
 
-> *Banco de **Teste***
->create database bam_test;
->use bam_test;
->
-> *Banco de **Produção***
->create database bam;
->use bam;
+> *Banco de **ProduÃ§Ã£o***
+create database bam;
+use bam;
 
->CREATE TABLE usuarios (
+CREATE TABLE usuarios (
   id BIGINT NOT NULL AUTO_INCREMENT,
   login VARCHAR(45) NOT NULL ,
   senha VARCHAR(45) NOT NULL ,
@@ -39,17 +37,18 @@ Será necessário a criação de 2 bancos, um para **teste** e um para **produção**.
   PRIMARY KEY (id)
 );
 
->insert into usuarios values(null, 'julio.silveira', '123', 'Júlio Silveira', 1, 'julio.silveira.rj@gmail.com', now(), null, 'http://juliosilveiradev.com');
->
->**Obs: Criar a tabela nos 2 bancos.**
+insert into usuarios values(null, 'julio.silveira', '123', 'Jï¿½lio Silveira', 1, 'julio.silveira.rj@gmail.com', now(), null, 'http://juliosilveiradev.com');
+
+**Obs: Criar a tabela nos 2 bancos.**
 
 #### <i class="icon-pencil"></i> **Rodando Testes**
 
-Para rodar o teste é simples, basta executar em seu prompt de comando o comando: 
+Para rodar o teste Ã© simples, basta executar em seu prompt de comando o comando: 
 > **node node_modules/mocha/bin/mocha**
 
-Obs: A API usada para os testa são: **mocha** e **supertest**.
-Obs²: É preciso estar na basta do projeto para rodar o teste com eficiência.
+Obs: A API usada para os testa sÃ£o: **mocha** e **supertest**.
+<br>
+ObsÂ²: Ã‰ preciso estar na basta do projeto para rodar o teste com eficiï¿½ncia.
 
 #### <i class="icon-pencil"></i> **API's Utilizadas**
  - body-parser
@@ -65,6 +64,6 @@ Obs²: É preciso estar na basta do projeto para rodar o teste com eficiência.
  - mocha
  - supertest
 
-> As APIs **database-cleaner**, **mocha** e **supertest** foram instaladas usando o parâmetro **--dev**.
+> As APIs **database-cleaner**, **mocha** e **supertest** foram instaladas usando o parÃ¢metro **-dev**.
 
 ![http://juliosilveiradev.com](http://uploaddeimagens.com.br/images/000/917/707/original/logo.png?1494816890)
