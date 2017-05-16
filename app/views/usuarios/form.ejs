@@ -211,7 +211,7 @@
 							</li>
 							<li class="divider"></li>
 							<li>
-								<a href="login.html" class="padding-10 padding-top-5 padding-bottom-5" data-action="userLogout"><i class="fa fa-sign-out fa-lg"></i> <strong><u>L</u>ogout</strong></a>
+								<a href="/logout" class="padding-10 padding-top-5 padding-bottom-5" data-action="userLogout"><i class="fa fa-sign-out fa-lg"></i> <strong><u>L</u>ogout</strong></a>
 							</li>
 						</ul>
 					</li>
@@ -219,7 +219,7 @@
 
 				<!-- logout button -->
 				<div id="logout" class="btn-header transparent pull-right">
-					<span> <a href="login.html" title="Sair" data-action="userLogout" data-logout-msg="Realmente deseja se deslogar do sistema?"><i class="fa fa-sign-out"></i></a> </span>
+					<span> <a href="/logout" title="Sair" data-action="userLogout" data-logout-msg="Realmente deseja se deslogar do sistema?"><i class="fa fa-sign-out"></i></a> </span>
 				</div>
 				<!-- end logout button -->
 
@@ -345,7 +345,7 @@
 					<a href="javascript:void(0);" id="show-shortcut" data-action="toggleShortcut">
 						<img src="../img/avatars/sunny.png" alt="me" class="online" /> 
 						<span>
-							julio.silveira 
+							<%=user.username%>
 						</span>
 						<i class="fa fa-angle-down"></i>
 					</a> 
@@ -509,7 +509,7 @@
 						<%if(usuario.id != null) { %>
 							<form action="/usuarios/<%=usuario.id%>?_method=PUT" method="post" id="smart-form-register-edit" class="smart-form">
 						<%} else {%>
-							<form action="/usuarios" method="post" id="smart-form-register" class="smart-form">
+							<form action="/signupInterno" method="post" id="smart-form-register" class="smart-form">
 						<%}%>
 							<header>
 								<%if(usuario.id != null) { %>
@@ -522,7 +522,11 @@
 							<fieldset>
 								<section>
 									<label class="input"> <i class="icon-append fa fa-user"></i>
-										<input type="text" name="login" placeholder="Login" value="<%=usuario.login%>">
+										<%if(usuario.id != null) { %>
+											<input type="text" name="username" placeholder="Usuário" value="<%=usuario.username%>" disabled="disabled">
+										<%} else {%>
+											<input type="text" name="username" placeholder="Usuário" value="<%=usuario.username%>">
+										<%}%>
 										<b class="tooltip tooltip-bottom-right">Nome que será usado para login no site</b> </label>
 								</section>
 								
@@ -532,18 +536,20 @@
 										<b class="tooltip tooltip-bottom-right">Necessário para validação do cadastro</b> </label>
 								</section>
 
-								<section>
-									<label class="input"> <i class="icon-append fa fa-lock"></i>
-										<input type="password" name="senha" placeholder="Senha" id="senha">
-										<b class="tooltip tooltip-bottom-right">Senha que será usada para login no site</b> </label>
-								</section>
+								<%if(usuario.id == null) { %>
+									<section>
+										<label class="input"> <i class="icon-append fa fa-lock"></i>
+											<input type="password" name="password" placeholder="Senha" id="password">
+											<b class="tooltip tooltip-bottom-right">Senha que será usada para login no site</b> </label>
+									</section>
 
-								<section>
-									<label class="input"> <i class="icon-append fa fa-lock"></i>
-										<input type="password" name="passwordConfirm" placeholder="Confirmar Senha">
-										<b class="tooltip tooltip-bottom-right">Confirme sua senha</b> </label>
-								</section>
-
+									<section>
+										<label class="input"> <i class="icon-append fa fa-lock"></i>
+											<input type="password" name="passwordConfirm" placeholder="Confirmar Senha">
+											<b class="tooltip tooltip-bottom-right">Confirme sua senha</b> </label>
+									</section>
+								<%}%>
+								
 								<section>
 									<label class="select">
 										<select name="ativo">
@@ -747,14 +753,14 @@
 	
 				// Rules for form validation
 				rules : {
-					login : {
+					username : {
 						required : true
 					},
 					email : {
 						required : true,
 						email : true
 					},
-					senha : {
+					password : {
 						required : true,
 						minlength : 3,
 						maxlength : 20
@@ -763,7 +769,7 @@
 						required : true,
 						minlength : 3,
 						maxlength : 20,
-						equalTo : '#senha'
+						equalTo : '#password'
 					},
 					nome : {
 						required : true
@@ -772,14 +778,14 @@
 	
 				// Messages for form validation
 				messages : {
-					login : {
-						required : 'O campo login é obrigatório'
+					username : {
+						required : 'O campo usuário é obrigatório'
 					},
 					email : {
 						required : 'O campo email é obrigatório',
 						email : 'Por favor, preencha o campo com um email válido'
 					},
-					senha : {
+					password : {
 						required : 'O campo senha é obrigatório'
 					},
 					passwordConfirm : {
@@ -811,21 +817,21 @@
 	
 				// Rules for form validation
 				rules : {
-					login : {
+					username : {
 						required : true
 					},
 					email : {
 						required : true,
 						email : true
 					},
-					senha : {
+					password : {
 						minlength : 3,
 						maxlength : 20
 					},
 					passwordConfirm : {
 						minlength : 3,
 						maxlength : 20,
-						equalTo : '#senha'
+						equalTo : '#password'
 					},
 					nome : {
 						required : true
@@ -834,8 +840,8 @@
 	
 				// Messages for form validation
 				messages : {
-					login : {
-						required : 'O campo login é obrigatório'
+					username : {
+						required : 'O campo usuário é obrigatório'
 					},
 					email : {
 						required : 'O campo email é obrigatório',

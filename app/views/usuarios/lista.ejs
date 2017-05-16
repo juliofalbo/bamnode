@@ -211,7 +211,7 @@
 							</li>
 							<li class="divider"></li>
 							<li>
-								<a href="login.html" class="padding-10 padding-top-5 padding-bottom-5" data-action="userLogout"><i class="fa fa-sign-out fa-lg"></i> <strong><u>L</u>ogout</strong></a>
+								<a href="/logout" class="padding-10 padding-top-5 padding-bottom-5" data-action="userLogout"><i class="fa fa-sign-out fa-lg"></i> <strong><u>L</u>ogout</strong></a>
 							</li>
 						</ul>
 					</li>
@@ -219,7 +219,7 @@
 
 				<!-- logout button -->
 				<div id="logout" class="btn-header transparent pull-right">
-					<span> <a href="login.html" title="Sair" data-action="userLogout" data-logout-msg="Realmente deseja se deslogar do sistema?"><i class="fa fa-sign-out"></i></a> </span>
+					<span> <a href="/logout" title="Sair" data-action="userLogout" data-logout-msg="Realmente deseja se deslogar do sistema?"><i class="fa fa-sign-out"></i></a> </span>
 				</div>
 				<!-- end logout button -->
 
@@ -345,7 +345,7 @@
 					<a href="javascript:void(0);" id="show-shortcut" data-action="toggleShortcut">
 						<img src="../img/avatars/sunny.png" alt="me" class="online" /> 
 						<span>
-							julio.silveira 
+							<%=user.username%>
 						</span>
 						<i class="fa fa-angle-down"></i>
 					</a> 
@@ -444,24 +444,24 @@
 					</div>
 				</div>
 				
-<%if(mensagemErro != null) { %>
-    <div class="alert alert-block alert-danger fade in">
-        <a class="close" data-dismiss="alert" href="#">×</a>
-        <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Poxa Vida! :(</h4>
-        <p>
-            <%=mensagemErro%>
-        </p>
-    </div>
-<%}%>
-<%if(mensagemSucesso != null) { %>
-    <div class="alert alert-block alert-success fade in">
-        <a class="close" data-dismiss="alert" href="#">×</a>
-        <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Parabéns! :)</h4>
-            <p>
-                <%=mensagemSucesso%>
-            </p>
-    </div>
-<%}%>
+				<%if(mensagemErro != null) { %>
+					<div class="alert alert-block alert-danger fade in">
+						<a class="close" data-dismiss="alert" href="#">×</a>
+						<h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Poxa Vida! :(</h4>
+						<p>
+							<%=mensagemErro%>
+						</p>
+					</div>
+				<%}%>
+				<%if(mensagemSucesso != null) { %>
+					<div class="alert alert-block alert-success fade in">
+						<a class="close" data-dismiss="alert" href="#">×</a>
+						<h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Parabéns! :)</h4>
+							<p>
+								<%=mensagemSucesso%>
+							</p>
+					</div>
+				<%}%>
 
 				<!-- widget grid -->
 				<section id="widget-grid" class="">
@@ -520,7 +520,7 @@
                                                         <input type="text" class="form-control" placeholder="Filtrar Nome" />
 													</th>
 													<th class="hasinput" style="width:16%">
-														<input type="text" class="form-control" placeholder="Filtrar Login" />
+														<input type="text" class="form-control" placeholder="Filtrar Usuário" />
 													</th>
 													<th class="hasinput" style="width:5%">
 														<input type="text" class="form-control" placeholder="Filtrar Ativo" />
@@ -537,7 +537,7 @@
                                                     <th>Ações</th>
 								                    <th>ID</th>
 								                    <th>Nome</th>
-								                    <th>Login</th>
+								                    <th>Usuário</th>
 								                    <th>Ativo</th>
 								                    <th>Email</th>
 								                    <th>Data de Cadastro</th>
@@ -551,13 +551,16 @@
                                                             <a href="/usuarios/<%=lista[i].id%>" class="btn btn-xs btn-default mesma-linha" data-original-title="Editar" >
                                                                     <i class="fa fa-pencil"></i>
                                                             </a>
+
+															<%if(user.id != lista[i].id){%>
                                                             <a href="/usuarios/<%=lista[i].id%>?_method=DELETE" class="btn btn-xs btn-default mesma-linha" data-original-title="Excluir" >
                                                                     <i class="fa fa-times"></i>
                                                             </a>
+															<%}%>
                                                         </td>
                                                         <td><%= lista[i].id %></td>
                                                         <td><%= lista[i].nome %></td>
-                                                        <td><%= lista[i].login %></td>
+                                                        <td><%= lista[i].username %></td>
                                                         <td><%= lista[i].ativo %></td>
                                                         <td><%= lista[i].email %></td>
                                                         <td><%= lista[i].data_criacao.toISOString().replace(/T/, ' ').replace(/\..+/, '') %></td>

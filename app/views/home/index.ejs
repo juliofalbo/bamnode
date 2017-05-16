@@ -211,7 +211,7 @@
 							</li>
 							<li class="divider"></li>
 							<li>
-								<a href="login.html" class="padding-10 padding-top-5 padding-bottom-5" data-action="userLogout"><i class="fa fa-sign-out fa-lg"></i> <strong><u>L</u>ogout</strong></a>
+								<a href="/logout" class="padding-10 padding-top-5 padding-bottom-5" data-action="userLogout"><i class="fa fa-sign-out fa-lg"></i> <strong><u>L</u>ogout</strong></a>
 							</li>
 						</ul>
 					</li>
@@ -219,7 +219,7 @@
 
 				<!-- logout button -->
 				<div id="logout" class="btn-header transparent pull-right">
-					<span> <a href="login.html" title="Sair" data-action="userLogout" data-logout-msg="Realmente deseja se deslogar do sistema?"><i class="fa fa-sign-out"></i></a> </span>
+					<span> <a href="/logout" title="Sair" data-action="userLogout" data-logout-msg="Realmente deseja se deslogar do sistema?"><i class="fa fa-sign-out"></i></a> </span>
 				</div>
 				<!-- end logout button -->
 
@@ -345,7 +345,7 @@
 					<a href="javascript:void(0);" id="show-shortcut" data-action="toggleShortcut">
 						<img src="img/avatars/sunny.png" alt="me" class="online" /> 
 						<span>
-							julio.silveira 
+							<%=user.username%>
 						</span>
 						<i class="fa fa-angle-down"></i>
 					</a> 

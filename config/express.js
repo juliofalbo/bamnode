@@ -1,7 +1,14 @@
 var express = require('express');
+var session  = require('express-session');
+var cookieParser = require('cookie-parser');
 var load = require('express-load');
 var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
+var morgan = require('morgan');
+
+var passport = require('passport');
+var flash = require('connect-flash');
+require('../config/passport')(passport); // pass passport for configuration
 
 module.exports = function() {
     var app = express();
@@ -9,8 +16,11 @@ module.exports = function() {
     app.use(express.static('./app/public'));
     app.set('view engine', 'ejs');
     app.set('views', './app/views');
+    app.set('passport', passport);
 
     //Middlewares
+    app.use(morgan('dev')); // log every request to the console
+    app.use(cookieParser()); // read cookies (needed for auth)
     app.use(bodyParser.urlencoded({extended: true}));
     app.use(bodyParser.json());
     app.use(expressValidator());
@@ -26,6 +36,16 @@ module.exports = function() {
         }
         next(); 
     });
+
+    // required for passport
+    app.use(session({
+        secret: 'vidyapathaisalwaysrunning',
+        resave: true,
+        saveUninitialized: true
+    } )); // session secret
+    app.use(passport.initialize());
+    app.use(passport.session()); // persistent login sessions
+    app.use(flash()); // use connect-flash for flash messages stored in session
 
     load('routes', {cwd: 'app'})
         .then('infra')

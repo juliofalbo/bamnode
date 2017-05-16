@@ -1,5 +1,8 @@
 module.exports = function(app) {
-    app.get('/usuarios', function(req, res, next) {
+    
+    var passport = app.get('passport');
+
+    app.get('/usuarios', isLoggedIn, function(req, res, next) {
 
         var mensagemSucesso = req.query.mensagemSucesso;
 
@@ -19,7 +22,8 @@ module.exports = function(app) {
                     res.render('usuarios/lista', {
                             lista: resultados, 
                             mensagemErro:mensagemErro, 
-                            mensagemSucesso:mensagemSucesso
+                            mensagemSucesso:mensagemSucesso,
+                            user : req.user
                         });
                 },
                 json: function(){
@@ -32,11 +36,49 @@ module.exports = function(app) {
         connection.end();
     });
 
-    app.get("/usuarios/form",function(req, res) {
-        res.render('usuarios/form', {validationErrors:{}, usuario: {}});
+    app.get("/usuarios/form", isLoggedIn, function(req, res) {
+        res.render('usuarios/form', {validationErrors:{}, usuario: {}, user : req.user});
     });
 
-    app.post("/usuarios",function(req, res) {
+    app.get('/signup', function(req, res) {
+		res.render('home/signup.ejs', { messageError: req.flash('signupMessageError'), message: req.flash('signupMessage'), user : req.user });
+	});
+
+	app.post('/signup', passport.authenticate('local-signup', {
+		successRedirect : '/signup',
+		successFlash : true,
+		failureRedirect : '/signup',
+		failureFlash : true
+	}));
+
+    app.get('/signupInterno', isLoggedIn, function(req, res) {
+        var messageError = req.flash('signupMessageError');
+        console.log(messageError);
+
+        var message = req.flash('signupMessage');
+        console.log(message);
+
+        if(messageError != null && messageError.length > 0)
+        {
+            var validationErrors = [{msg: messageError}];
+            res.status(400).render('usuarios/form',{validationErrors:validationErrors, usuario:{}, user : req.user});
+        }
+        else if(message != null && message.length > 0)
+        {
+            var mensagemSucesso = "Usuário cadastrado com Sucesso!";
+            res.redirect('/usuarios?mensagemSucesso=' + mensagemSucesso);
+        }
+	});
+
+	app.post('/signupInterno', isLoggedIn, passport.authenticate('local-signup', {
+		successRedirect : '/signupInterno',
+		successFlash : true,
+		failureRedirect : '/signupInterno',
+		failureFlash : true
+	}));
+
+    //Não está sendo usado, pois todas os logins são criados a partir da rota /signup
+    app.post("/usuarios", isLoggedIn, function(req, res) {
         var usuario = req.body;
 
         req.assert('login', 'O campo Login é obrigatório!').notEmpty();
@@ -49,7 +91,7 @@ module.exports = function(app) {
         {
             res.format({
                 html: function(){
-                    res.status(400).render('usuarios/form',{validationErrors:erros,usuario: usuario});
+                    res.status(400).render('usuarios/form',{validationErrors:erros,usuario: usuario, user : req.user});
                 },
                 json: function(){
                     res.status(400).json(erros);
@@ -66,7 +108,7 @@ module.exports = function(app) {
             {
                 console.log(erros);
                 var errosArray= [{msg:"Ocorreu um erro interno ao tentar cadastrar o Usuário! Nossa equipe já foi informada do erro. Pedimos desculpas pelo transtorno!"}];
-                res.status(400).render('usuarios/form',{validationErrors:errosArray, usuario: usuario});
+                res.status(400).render('usuarios/form',{validationErrors:errosArray, usuario: usuario, user : req.user});
                 return;
             }
             else
@@ -77,18 +119,21 @@ module.exports = function(app) {
         });
     });
 
-   app.delete("/usuarios/:id",function(req, res) {
+   app.delete("/usuarios/:id", isLoggedIn, function(req, res) {
+        
+        console.log("aqui");
         var id = req.params.id;
 
         var connection = app.infra.connectionFactory();
         var usuariosDAO = new app.infra.UsuariosDAO(connection);
 
+        console.log("aqui2");
         usuariosDAO.deleta(id, function(erros, resultados) {
             if(erros)
             {
                 console.log(erros);
                 var errosArray= [{msg:"Ocorreu um erro interno ao tentar excluir o Usuário! Nossa equipe já foi informada do erro. Pedimos desculpas pelo transtorno!"}];
-                res.status(400).render('/usuarios',{mensagemErro:mensagemErro, mensagemSucesso:''});
+                res.status(400).render('/usuarios',{mensagemErro:mensagemErro, mensagemSucesso:'', user : req.user});
                 return;
             }
             else
@@ -101,7 +146,7 @@ module.exports = function(app) {
         connection.end();
     });
 
-    app.get("/usuarios/:id", function(req, res) {
+    app.get("/usuarios/:id", isLoggedIn, function(req, res) {
         var id = req.params.id;
 
         var connection = app.infra.connectionFactory();
@@ -109,19 +154,18 @@ module.exports = function(app) {
 
         usuariosDAO.recuperaPeloId(id, function(erros, usuarios) {
             var usuario = usuarios[0];
-            res.render('usuarios/form', {validationErrors:{}, usuario: usuario});
+            res.render('usuarios/form', {validationErrors:{}, usuario: usuario, user : req.user});
         });
 
         connection.end();
     });
 
-    app.put("/usuarios/:id", function(req, res) {
+    app.put("/usuarios/:id", isLoggedIn, function(req, res) {
         var id = req.params.id;
 
         var usuario = req.body;
         usuario.id = id;
 
-        req.assert('login', 'O campo Login é obrigatório!').notEmpty();
         req.assert('nome', 'O campo Nome é obrigatório!').notEmpty();
         req.assert('email', 'O campo Email é obrigatório!').notEmpty();
 
@@ -130,7 +174,7 @@ module.exports = function(app) {
         {
             res.format({
                 html: function(){
-                    res.status(400).render('usuarios/form',{validationErrors:erros,usuario: usuario});
+                    res.status(400).render('usuarios/form',{validationErrors:erros,usuario: usuario, user : req.user});
                 },
                 json: function(){
                     res.status(400).json(erros);
@@ -147,7 +191,7 @@ module.exports = function(app) {
             {
                 console.log(erros);
                 var errosArray= [{msg:"Ocorreu um erro interno ao tentar cadastrar o Usuário! Nossa equipe já foi informada do erro. Pedimos desculpas pelo transtorno!"}];
-                res.status(400).render('usuarios/form',{validationErrors:errosArray, usuario: usuario});
+                res.status(400).render('usuarios/form',{validationErrors:errosArray, usuario: usuario, user : req.user});
                 return;
             }
             else
@@ -178,4 +222,15 @@ module.exports = function(app) {
             }
         });
     });
+}
+
+function isLoggedIn(req, res, next) {
+	if (req.isAuthenticated())
+	{
+		return next();
+	}
+	else
+	{
+		res.redirect('/login');
+	}
 }
