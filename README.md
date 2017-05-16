@@ -14,7 +14,8 @@ Documentação
 > - O banco de dados utilizado é o **MySQL**.
 
 Será necessário a criação de 2 bancos, um para **teste** e um para **produção**.
-> **Script para criação do banco:**
+
+**Script para criação do banco:**
 
 *Banco de **Teste***
 > create database bam_test;
@@ -24,17 +25,17 @@ Será necessário a criação de 2 bancos, um para **teste** e um para **produç
 > create database bam;
 > use bam;
 
-CREATE TABLE usuarios (
-id BIGINT NOT NULL AUTO_INCREMENT,
-login VARCHAR(45) NOT NULL ,
-senha VARCHAR(45) NOT NULL ,
-nome VARCHAR(100) NOT NULL ,
-ativo TINYINT NOT NULL DEFAULT 1 ,
-email varchar(100) NOT NULL,
-data_criacao datetime NOT NULL,
-foto TEXT,
-site varchar(100),
-PRIMARY KEY (id)
+CREATE TABLE users (<br>
+id BIGINT NOT NULL AUTO_INCREMENT,<br>
+username VARCHAR(20) NOT NULL ,<br>
+password VARCHAR(60) NOT NULL ,<br>
+nome VARCHAR(100) NOT NULL ,<br>
+ativo TINYINT NOT NULL DEFAULT 1 ,<br>
+email varchar(100) NOT NULL,<br>
+data_criacao datetime NOT NULL,<br>
+foto TEXT,<br>
+site varchar(100),<br>
+PRIMARY KEY (id)<br>
 );
 
 insert into usuarios values(null, 'julio.silveira', '123', 'Júlio Silveira', 1, 'julio.silveira.rj@gmail.com', now(), null, 'http://juliosilveiradev.com');
@@ -50,6 +51,17 @@ Obs: A API usada para os testa são: **mocha** e **supertest**.
 <br>
 Obs²: É preciso estar na basta do projeto para rodar o teste com eficiência.
 
+#### <i class="icon-pencil"></i> **Autenticação**
+
+> passport.js
+
+Atualmente o sistema utiliza o módulo passport para autenticações.
+<br>
+As estratégias adotas são:
+
+- Local
+- LinkedIn
+
 #### <i class="icon-pencil"></i> **API's Utilizadas**
  - body-parser
  - dateformat
@@ -57,12 +69,21 @@ Obs²: É preciso estar na basta do projeto para rodar o teste com eficiência.
  - express
  - express-load
  - express-validator
+ - express-session
  - mysql
  - nodemon
  - socket.io
  - database-cleaner
  - mocha
  - supertest
+ - cookie-parser
+ - connect-flash
+ - bcrypt-nodejs
+ - morgan
+ - passport
+ - passport-linkedin-oauth2
+ - passport-local
+ 
 
 > As APIs **database-cleaner**, **mocha** e **supertest** foram instaladas usando o parâmetro **-dev**.
 
