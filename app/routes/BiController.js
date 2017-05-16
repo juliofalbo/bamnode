@@ -26,7 +26,13 @@ module.exports = function(app) {
             
             var usuariosAtivoInativo = {ativos: ativos, inativos:inativos};
 
-            res.render('indicadores/bi', {graficoStatusUsuario: usuariosAtivoInativo, user : req.user});
+            var user = req.user;
+            if(Array.isArray(user))
+            {
+                user = user[0];
+            }
+
+            res.render('indicadores/bi', {graficoStatusUsuario: usuariosAtivoInativo, user : user});
             return;
         });
 

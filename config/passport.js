@@ -2,12 +2,16 @@
 
 // load all the things we need
 var LocalStrategy = require('passport-local').Strategy;
+var LinkedInStrategy = require('passport-linkedin-oauth2').Strategy;
 
 // load up the user model
 var mysql = require('mysql');
 var bcrypt = require('bcrypt-nodejs');
 var createDBConnection = require('../app/infra/connectionFactory')();
 var connection = createDBConnection();
+
+var userDAO = require('../app/infra/UsuariosDAO')();
+var usuariosDAO = new userDAO(connection);
 
 // expose this function to our app using module.exports
 module.exports = function(passport) {
@@ -20,14 +24,11 @@ module.exports = function(passport) {
 
     // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
-        done(null, user.id);
+        done(null, user);
     });
 
-    // used to deserialize the user
-    passport.deserializeUser(function(id, done) {
-        connection.query("SELECT * FROM users WHERE id = ? ",[id], function(err, rows){
-            done(err, rows[0]);
-        });
+    passport.deserializeUser(function(user, done) {
+        done(null, user);
     });
 
     // =========================================================================
@@ -84,42 +85,78 @@ module.exports = function(passport) {
                     connection.query(insertQuery,[newUserMysql.username, newUserMysql.password, newUserMysql.nome, newUserMysql.ativo, newUserMysql.email, newUserMysql.site ],function(err, rows) {
                         newUserMysql.id = rows.insertId;
 
-                        return done(null, newUserMysql, req.flash('signupMessage', 'Solicitação enviada com sucesso!'));
+                        return done(null, false, req.flash('signupMessage', 'Solicitação enviada com sucesso!'));
                     });
                 }
             });
         })
     );
 
-    // =========================================================================
-    // LOCAL LOGIN =============================================================
-    // =========================================================================
-    // we are using named strategies since we have one for login and one for signup
-    // by default, if there was no name, it would just be called 'local'
-
     passport.use(
         'local-login',
         new LocalStrategy({
-            // by default, local strategy uses username and password, we will override with email
             usernameField : 'username',
             passwordField : 'password',
-            passReqToCallback : true // allows us to pass back the entire request to the callback
+            passReqToCallback : true 
         },
-        function(req, username, password, done) { // callback with email and password from our form
+        function(req, username, password, done) {
             connection.query("SELECT * FROM users WHERE ativo = 1 and username = ?",[username], function(err, rows){
                 if (err)
                     return done(err);
                 if (!rows.length) {
-                    return done(null, false, req.flash('loginMessage', 'Usuário/Senha inválidos.')); // req.flash is the way to set flashdata using connect-flash
+                    return done(null, false, req.flash('loginMessage', 'Usuário/Senha inválidos.'));
                 }
 
-                // if the user is found but the password is wrong
                 if (!bcrypt.compareSync(password, rows[0].password))
-                    return done(null, false, req.flash('loginMessage', 'Senha incorreta.')); // create the loginMessage and save it to session as flashdata
+                {
+                    return done(null, false, req.flash('loginMessage', 'Senha incorreta.'));
+                }
 
-                // all is well, return successful user
                 return done(null, rows[0]);
             });
         })
     );
+
+
+    passport.use(new LinkedInStrategy({
+        clientID: '7872fcaj1n0asj',
+        clientSecret: '4Trg3cODpjoIpgR1',
+        callbackURL: "http://127.0.0.1:3000/auth/linkedin/callback",
+        scope: ['r_emailaddress', 'r_basicprofile'],
+        }, function(accessToken, refreshToken, profile, done) {
+        process.nextTick(function () {
+            var usuario = 
+            {
+                username: profile._json.firstName + '.linkedin',
+                nome: profile._json.formattedName,
+                email: profile._json.emailAddress,
+                site: profile._json.publicProfileUrl,
+                foto: profile.photos[0].value
+            };
+
+            usuariosDAO.recuperaPeloUsername(usuario.username, function(erros, user) {
+                if(erros)
+                {
+                    console.log(erros);
+                }
+                else if(!user)
+                {
+                    usuariosDAO.salvaUsuarioLinkedIn(usuario, function(erros, user) {
+                        if(erros)
+                        {
+                            console.log(erros);
+                        }
+                        return done(null, user);
+                    });
+                }
+                else
+                {
+                    return done(null, user);
+                }
+            });
+            
+            
+        });
+    }));
+
 };

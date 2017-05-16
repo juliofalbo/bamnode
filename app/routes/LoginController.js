@@ -3,8 +3,14 @@ module.exports = function(app) {
     var passport = app.get('passport');
 
 	app.get('/', isLoggedIn, function(req, res) {
+		var user = req.user;
+		if(Array.isArray(user))
+		{
+			user = user[0];
+		}
+		
 		res.render('home/index.ejs', {
-			user : req.user
+			user : user
 		});
 	});
 
@@ -30,6 +36,17 @@ module.exports = function(app) {
 		req.logout();
 		res.redirect('/login');
 	});
+
+	app.get('/auth/linkedin',
+		passport.authenticate('linkedin', { state: 'SOME STATE'  }),
+		function(req, res){
+			//Nada será realizado aqui pois ao chamar a rota, a página de autenticação do LinkedIn será exibida
+	});
+
+	app.get('/auth/linkedin/callback', passport.authenticate('linkedin', {
+		successRedirect: '/',
+		failureRedirect: '/login'
+	}));
 };
 
 function isLoggedIn(req, res, next) {
