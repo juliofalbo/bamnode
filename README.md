@@ -18,11 +18,11 @@ Será necessário a criação de 2 bancos, um para **teste** e um para **produç
 **Script para criação do banco:**
 
 *Banco de **Teste***
-> create database bam_test;
+> create database bam_test; <br>
 > use bam_test;
 
 *Banco de **Produção***
-> create database bam;
+> create database bam; <br>
 > use bam;
 
 CREATE TABLE users (<br>
@@ -63,26 +63,26 @@ As estratégias adotas são:
 - LinkedIn
 
 #### <i class="icon-pencil"></i> **API's Utilizadas**
- - npm install --save body-parser
- - npm install --save dateformat
- - npm install --save ejs
- - npm install --save express
- - npm install --save express-load
- - npm install --save express-validator
- - npm install --save express-session
- - npm install --save mysql
- - npm install --save nodemon
- - npm install --save socket.io
- - npm install --save database-cleaner -dev
- - npm install --save mocha -dev
- - npm install --save supertest -dev
- - npm install --save cookie-parser
- - npm install --save connect-flash
- - npm install --save bcrypt-nodejs
- - npm install --save morgan
- - npm install --save passport
- - npm install --save passport-linkedin-oauth2
- - npm install --save passport-local
+ - npm install --save **body-parser**
+ - npm install --save **dateformat**
+ - npm install --save **ejs**
+ - npm install --save **express**
+ - npm install --save **express-load**
+ - npm install --save **express-validator**
+ - npm install --save **express-session**
+ - npm install --save **mysql**
+ - npm install --save **nodemon**
+ - npm install --save **socket.io**
+ - npm install --save **database-cleaner** -dev
+ - npm install --save **mocha** -dev
+ - npm install --save **supertest** -dev
+ - npm install --save **cookie-parser**
+ - npm install --save **connect-flash**
+ - npm install --save **bcrypt-nodejs**
+ - npm install --save **morgan**
+ - npm install --save **passport**
+ - npm install --save **passport-linkedin-oauth2**
+ - npm install --save **passport-local**
  
 
 > As APIs **database-cleaner**, **mocha** e **supertest** foram instaladas usando o parâmetro **-dev**.
