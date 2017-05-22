@@ -11,7 +11,7 @@ Documentação
 -------------
 
 #### <i class="icon-file"></i> **Criação do Banco de Dados**
-> - O banco de dados utilizado é o **MySQL**.
+> O banco de dados utilizado é o **MySQL**.
 
 Será necessário a criação de 2 bancos, um para **teste** e um para **produção**.
 
@@ -37,8 +37,6 @@ foto TEXT,<br>
 site varchar(100),<br>
 PRIMARY KEY (id)<br>
 );
-
-insert into users values(null, 'julio.silveira', '123', 'Júlio Silveira', 1, 'julio.silveira.rj@gmail.com', now(), null, 'http://juliosilveiradev.com');
 
 **Obs: Criar a tabela nos 2 bancos.**
 
