@@ -36,10 +36,10 @@ module.exports = function(app) {
             return;
         });
 
-        biDAO.listaGraficoTipoDecisaoCPE(function(erros, graficoTipoDecisaoCPE) {
+       /* biDAO.listaGraficoTipoDecisaoCPE(function(erros, graficoTipoDecisaoCPE) {
             res.render('indicadores/bi', {graficoTipoDecisaoCPE: graficoTipoDecisaoCPE[0], user : req.user});
             return;
-        });
+        }); */
         
         connection.end();
     });
