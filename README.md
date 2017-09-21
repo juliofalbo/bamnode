@@ -47,7 +47,7 @@ Para rodar o teste é simples, basta executar em seu prompt de comando o comando
 
 Obs: A API usada para os testa são: **mocha** e **supertest**.
 <br>
-Obs²: É preciso estar na basta do projeto para rodar o teste com eficiência.
+Obs²: É preciso estar na pasta do projeto para rodar o teste com eficiência.
 
 #### <i class="icon-pencil"></i> **Autenticação**
 
