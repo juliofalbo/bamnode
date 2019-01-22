@@ -1,6 +1,7 @@
 BamNode
 ===================
 
+**Obs: Código antigo e necessitando urgente de atualização e organização.**
 
 Sistema de BI em tempo real escrito em **[NodeJS](https://nodejs.org/en/)**, utlizando o framework **[Express](http://expressjs.com/pt-br/)** e o framework front-end **[EJS](http://www.embeddedjs.com/)**.
 
